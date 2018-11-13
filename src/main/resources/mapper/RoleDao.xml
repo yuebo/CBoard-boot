@@ -13,7 +13,16 @@
     </select>
 
     <select id="getRoleList" resultType="org.cboard.pojo.DashboardRole">
+<<<<<<< HEAD
         SELECT role_id roleId,role_name roleName,user_id userId FROM dashboard_role where #{userId} = '1' or user_id = #{userId} order by role_name
+=======
+        SELECT role_id roleId,
+               role_name roleName,
+               user_id userId
+          FROM dashboard_role
+         WHERE #{0} = '${admin_user_id}' or user_id = #{0}
+        ORDER BY role_name
+>>>>>>> upstream/branch-0.4.2
     </select>
 
     <select id="getCurrentRoleList" resultType="org.cboard.pojo.DashboardRole">
