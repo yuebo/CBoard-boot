@@ -1,22 +1,21 @@
 package org.cboard.dataprovider;
 
 import com.google.common.collect.Ordering;
+import freemarker.cache.ClassTemplateLoader;
+import freemarker.cache.NullCacheStorage;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateExceptionHandler;
 import org.apache.commons.io.output.StringBuilderWriter;
 import org.apache.commons.lang.StringUtils;
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
-import org.apache.velocity.app.VelocityEngine;
-import org.apache.velocity.runtime.RuntimeConstants;
 import org.cboard.dataprovider.annotation.DatasourceParameter;
 import org.cboard.dataprovider.annotation.QueryParameter;
 import org.reflections.ReflectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.net.URLDecoder;
 import java.util.*;
 
 /**
@@ -26,26 +25,16 @@ public class DataProviderViewManager {
 
     private static Logger LOG = LoggerFactory.getLogger(DataProviderViewManager.class);
 
-    private static VelocityEngine velocityEngine;
+    private static final Configuration CONFIGURATION = new Configuration(Configuration.VERSION_2_3_22);
 
     static {
-        Properties props = new Properties();
-        String fileDir = DataProviderViewManager.class.getResource("/templates/config").getPath();
-        try {
-            fileDir = URLDecoder.decode(fileDir, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            LOG.error("", e);
-        }
-        props.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS, "org.apache.velocity.runtime.log.Log4JLogChute");
-        props.setProperty(velocityEngine.FILE_RESOURCE_LOADER_PATH, fileDir);
-        props.setProperty(Velocity.OUTPUT_ENCODING, "UTF-8");
-        props.setProperty(Velocity.INPUT_ENCODING, "UTF-8");
-        props.setProperty("runtime.log.logsystem.log4j.logger", "velocity");
-        props.setProperty("log4j.logger.org.apache.velocity", "ERROR");
-        velocityEngine = new VelocityEngine(props);
+        // 指定加载模板所在的路径
+        CONFIGURATION.setTemplateLoader(new ClassTemplateLoader(DataProviderViewManager.class, "/templates/config/"));
+        CONFIGURATION.setDefaultEncoding("UTF-8");
+        CONFIGURATION.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
+        CONFIGURATION.setCacheStorage(NullCacheStorage.INSTANCE);
     }
 
-    private static Map<String, String> rendered = new HashMap<>();
 
     public static List<Map<String, Object>> getQueryParams(String type, String page, Map<String, String> dataSource) {
         Class clz = DataProviderManager.getDataProviderClass(type);
@@ -108,14 +97,21 @@ public class DataProviderViewManager {
 
     public static String getQueryView(String type, String page, Map<String, String> dataSource) {
         List<Map<String, Object>> params = getQueryParams(type, page, dataSource);
+        StringBuilderWriter result = new StringBuilderWriter();
         if (params != null && params.size() > 0) {
-            VelocityContext context = new VelocityContext();
-            context.put("params", params);
-            StringBuilderWriter stringBuilderWriter = new StringBuilderWriter();
-            velocityEngine.mergeTemplate("query.vm", "utf-8", context, stringBuilderWriter);
-            return stringBuilderWriter.toString();
+            Map<String, Object> map = new HashMap<String, Object>() {
+                {
+                    put("params", params);
+                }
+            };
+            try {
+                Template template = CONFIGURATION.getTemplate("query.ftl");
+                template.process(map, result);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        return null;
+        return result.toString();
     }
 
     public static List<Map<String, Object>> getDatasourceParams(String type) {
@@ -148,14 +144,21 @@ public class DataProviderViewManager {
 
     public static String getDatasourceView(String type) {
         List<Map<String, Object>> params = getDatasourceParams(type);
-        if (params != null && params.size() > 0) {
-            VelocityContext context = new VelocityContext();
-            context.put("params", params);
-            StringBuilderWriter stringBuilderWriter = new StringBuilderWriter();
-            velocityEngine.mergeTemplate("datasource.vm", "utf-8", context, stringBuilderWriter);
-            return stringBuilderWriter.toString();
+        StringBuilderWriter result = new StringBuilderWriter();
+        try {
+            if (params != null && params.size() > 0) {
+                Map<String, Object> map = new HashMap<String, Object>() {
+                    {
+                        put("params", params);
+                    }
+                };
+                Template template = CONFIGURATION.getTemplate("datasource.ftl");
+                template.process(map, result);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return null;
+        return result.toString();
     }
 
     private static Ordering<Field> fieldOrdering = Ordering.from(new Comparator<Field>() {
