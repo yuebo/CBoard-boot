@@ -1,7 +1,7 @@
 package org.cboard.dataproviders.kylin.model;
 
 import com.alibaba.fastjson.JSONObject;
-import org.apache.commons.collections.map.HashedMap;
+import org.apache.commons.collections4.map.HashedMap;
 import org.cboard.exception.CBoardException;
 import org.cboard.dataproviders.kylin.KylinDataProvider;
 import org.cboard.dataproviders.kylin.TableMap;

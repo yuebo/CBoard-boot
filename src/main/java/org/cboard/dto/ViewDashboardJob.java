@@ -1,7 +1,7 @@
 package org.cboard.dto;
 
 import com.alibaba.fastjson.JSONObject;
-import org.apache.commons.collections.map.HashedMap;
+import org.apache.commons.collections4.map.HashedMap;
 import org.cboard.pojo.DashboardJob;
 import org.cboard.services.role.RolePermission;
 

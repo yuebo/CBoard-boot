@@ -521,7 +521,7 @@ public class SolrDataProvider extends DataProvider implements Aggregatable, Init
         StringJoiner where = new StringJoiner(",", "", "");
         where.setEmptyValue("");
         filters.map(e -> separateNull(e)).map(e -> configComponentToSql(e)).filter(e -> e != null).forEach(where::add);
-        if (org.apache.commons.lang.StringUtils.isNotEmpty(where.toString())) {
+        if (StringUtils.isNotEmpty(where.toString())) {
             sQuery.set("fq", where.toString().split(","));
         }
         //存在聚合参数

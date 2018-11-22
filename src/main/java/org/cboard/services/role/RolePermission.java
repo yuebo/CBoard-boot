@@ -1,6 +1,6 @@
 package org.cboard.services.role;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Created by yfyuan on 2017/3/14.

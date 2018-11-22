@@ -1,7 +1,7 @@
 package org.cboard.dataproviders.kylin;
 
 import com.alibaba.fastjson.JSONObject;
-import org.apache.commons.collections.map.HashedMap;
+import org.apache.commons.collections4.map.HashedMap;
 import org.cboard.exception.CBoardException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.support.BasicAuthorizationInterceptor;

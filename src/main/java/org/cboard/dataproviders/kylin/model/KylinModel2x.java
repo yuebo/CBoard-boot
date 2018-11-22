@@ -1,7 +1,7 @@
 package org.cboard.dataproviders.kylin.model;
 
 import com.alibaba.fastjson.JSONObject;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.cboard.dataproviders.kylin.KylinDataProvider;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;

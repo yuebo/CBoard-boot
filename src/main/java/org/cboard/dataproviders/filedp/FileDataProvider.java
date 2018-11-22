@@ -3,7 +3,7 @@ package org.cboard.dataproviders.filedp;
 import au.com.bytecode.opencsv.CSVReader;
 import com.alibaba.fastjson.JSON;
 import com.google.common.base.Stopwatch;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.cboard.dataprovider.DataProvider;
 import org.cboard.dataprovider.annotation.DatasourceParameter;
 import org.cboard.dataprovider.annotation.ProviderName;

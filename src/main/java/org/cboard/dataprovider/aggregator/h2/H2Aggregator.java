@@ -1,7 +1,7 @@
 package org.cboard.dataprovider.aggregator.h2;
 
 import com.google.common.base.Stopwatch;
-import org.apache.commons.collections.map.HashedMap;
+import org.apache.commons.collections4.map.HashedMap;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.cboard.dataprovider.aggregator.InnerAggregator;
 import org.cboard.dataprovider.config.AggConfig;

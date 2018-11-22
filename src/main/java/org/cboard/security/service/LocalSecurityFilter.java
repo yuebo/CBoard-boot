@@ -3,7 +3,7 @@ package org.cboard.security.service;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.cboard.dto.User;
 import org.cboard.security.ShareAuthenticationToken;
 import org.slf4j.Logger;
