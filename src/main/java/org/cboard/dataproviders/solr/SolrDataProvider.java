@@ -26,7 +26,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 
-import java.net.MalformedURLException;
 import java.net.URLDecoder;
 import java.util.*;
 import java.util.function.Function;
@@ -212,12 +211,7 @@ public class SolrDataProvider extends DataProvider implements Aggregatable, Init
         for (int i = 0; i < tempServers.length; i++) {
             servers[i] = "http://" + tempServers[i] + "/solr/" + collectionName;
         }
-        SolrClient solrServer = null;
-        try {
-            solrServer = new LBHttpSolrClient(servers);
-        } catch (MalformedURLException e) {
-            LOG.error("", e);
-        }
+        SolrClient solrServer = new LBHttpSolrClient.Builder().withBaseSolrUrls(servers).build();
         return solrServer;
     }
 

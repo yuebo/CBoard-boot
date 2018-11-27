@@ -22,7 +22,7 @@ public class SolrServerFactory implements PooledObjectFactory<SolrClient> {
     }
 
     public PooledObject<SolrClient> makeObject() throws Exception {
-        SolrClient solrClient = new LBHttpSolrClient(servers);
+        SolrClient solrClient = new LBHttpSolrClient.Builder().withBaseSolrUrls(servers).build();
         return new DefaultPooledObject(solrClient);
     }
 
