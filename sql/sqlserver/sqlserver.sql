@@ -102,6 +102,12 @@ CREATE TABLE dashboard_board_param (
   PRIMARY KEY CLUSTERED (board_param_id)
 );
 
+CREATE TABLE dashboard_homepage (
+  board_id bigint identity(1,1),
+  user_id varchar(50) NOT NULL
+  PRIMARY KEY CLUSTERED (board_id, user_id)
+);
+
 ALTER  TABLE  dbo.dashboard_dataset ADD create_time DATETIME2 DEFAULT GETDATE();
 ALTER  TABLE  dbo.dashboard_dataset ADD update_time DATETIME2 DEFAULT GETDATE();
 

@@ -103,6 +103,12 @@ CREATE TABLE dashboard_board_param (
   PRIMARY KEY (board_param_id)
 );
 
+CREATE TABLE dashboard_homepage (
+  board_id bigint(20) NOT NULL,
+  user_id varchar(50) NOT NULL
+  PRIMARY KEY (board_id, user_id)
+);
+
 -- 升级0.4需要执行的
 ALTER TABLE dashboard_dataset ADD create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL;
 ALTER TABLE dashboard_dataset ADD update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL;
