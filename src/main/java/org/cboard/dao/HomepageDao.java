@@ -1,5 +1,6 @@
 package org.cboard.dao;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -7,10 +8,10 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface HomepageDao {
-    
-    int saveHomepage(Long boardId, String userId);
-    
+
+    int saveHomepage(@Param("boardId") Long boardId, @Param("userId") String userId);
+
     int resetHomepage(String userId);
-    
+
     Long selectHomepage(String userId);
 }

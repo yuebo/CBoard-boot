@@ -36,16 +36,16 @@ public class PropertiesConfig {
     @Value("${spring.datasource.druidDataSource.url}")
     private String jdbcUrl;
 
-    @Value("${spring.datasource.h2.url}")
+    @Value("${spring.h2.url}")
     private String h2Url;
 
-    @Value("${spring.datasource.h2.user.name}")
+    @Value("${spring.h2.user.name}")
     private String h2UserName;
 
-    @Value("${spring.datasource.h2.database.name}")
+    @Value("${spring.h2.database.name}")
     private String h2DatabaseName;
 
-    @Value("${spring.datasource.h2.cleanjob.quarz}")
+    @Value("${spring.h2.cleanjob.quarz}")
     private String h2Quarz;
 
 }

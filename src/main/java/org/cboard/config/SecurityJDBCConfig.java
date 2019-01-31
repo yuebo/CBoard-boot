@@ -74,6 +74,7 @@ public class SecurityJDBCConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers(
                 "/render",
+                "/h2/*",
                 "/lib/**",
                 "/dist/**",
                 "/bootstrap/**",
