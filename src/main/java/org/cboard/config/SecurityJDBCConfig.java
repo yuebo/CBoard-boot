@@ -18,8 +18,6 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
-import javax.sql.DataSource;
-
 /**
  * @author WangKun
  * @create 2018-07-25
@@ -37,6 +35,7 @@ public class SecurityJDBCConfig extends WebSecurityConfigurerAdapter {
     public DefaultAuthenticationService defaultAuthenticationService() {
         return new DefaultAuthenticationService();
     }
+
     @Bean
     public HuhaPasswordEncoder huhaPasswordEncoder() {
         return new HuhaPasswordEncoder();
@@ -73,7 +72,16 @@ public class SecurityJDBCConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/render","/lib/**", "/dist/**", "/bootstrap/**", "/plugins/**", "/css/**");
+        web.ignoring().antMatchers(
+                "/render",
+                "/lib/**",
+                "/dist/**",
+                "/bootstrap/**",
+                "/plugins/**",
+                "/js/**",
+                "/fonts/**",
+                "/imgs/**",
+                "/css/**");
     }
 
     @Override
