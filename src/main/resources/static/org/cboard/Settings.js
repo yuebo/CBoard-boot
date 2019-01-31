@@ -20,7 +20,7 @@ $.ajax({
 });
 
 $.ajax({
-    url: "homepage/mine.do",
+    url: "dashboard/homepage.do",
     type: "GET",
     dataType: "json",
     success: function(data) {
