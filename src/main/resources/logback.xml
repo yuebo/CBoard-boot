@@ -1,86 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration debug="false">
+<!-- Scan the file every 10 seconds -->
+<configuration scan="true" scanPeriod="10 seconds" debug="false">
 
-    <contextName>student-log</contextName>
+    <contextName>cboard-log</contextName>
 
-    <property name="LOG_HOME_INFO" value="/service/log/info/info.cboard.%d{yyyy-MM-dd}.%i.log"/>
-    <property name="LOG_HOME_WARN" value="/service/log/warn/warn.cboard.%d{yyyy-MM-dd}.%i.log"/>
-    <property name="LOG_HOME_ERROR" value="/service/log/error/error.cboard.%d{yyyy-MM-dd}.%i.log"/>
+    <!-- Log root -->
+    <property name="ROOT_PATH" value="/home/cboard"/>
+
+    <!-- application name -->
+    <property name="APP_NAME" value="cboard-api"/>
+
+    <!-- Log output directory -->
+    <property name="LOG_HOME" value="${ROOT_PATH}/microservice_log/${APP_NAME}"/>
+
+    <!-- ELK Log output directory -->
+    <property name="ELK_LOG_HOME" value="${ROOT_PATH}/elk_info_logs"/>
 
     <!-- console -->
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-40([%boldMagenta(%thread)]) %highlight(%-5level)--- %boldCyan(%logger{50}) - %msg%n
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-40([%boldMagenta(%thread)]) %highlight(%-5level)---
+                %boldCyan(%logger{50}) - %msg%n
             </pattern>
         </encoder>
     </appender>
 
-    <!-- info log -->
-    <appender name="FILE-INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>INFO</level>
-            <onMatch>ACCEPT</onMatch>
-            <onMismatch>DENY</onMismatch>
-        </filter>
-        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <FileNamePattern>${LOG_HOME_INFO}</FileNamePattern>
-            <MaxHistory>30</MaxHistory>
-            <MaxFileSize>100MB</MaxFileSize>
-            <TotalSizeCap>3GB</TotalSizeCap>
+    <!-- file output -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${LOG_HOME}/${APP_NAME}_%d{yyyy-MM-dd}.log</FileNamePattern>
         </rollingPolicy>
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level--- %logger{50} - %msg%n</pattern>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
 
-    <!-- warn log -->
-    <appender name="FILE-WARN" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>WARN</level>
-            <onMatch>ACCEPT</onMatch>
-            <onMismatch>DENY</onMismatch>
-        </filter>
-        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <FileNamePattern>${LOG_HOME_WARN}</FileNamePattern>
-            <MaxHistory>30</MaxHistory>
-            <MaxFileSize>100MB</MaxFileSize>
-            <TotalSizeCap>3GB</TotalSizeCap>
+    <!-- ELK Log collection（Json format，One file per hour） -->
+    <appender name="ELK" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${ELK_LOG_HOME}/${APP_NAME}_elk_%d{yyyy-MM-dd_HH}.log</FileNamePattern>
         </rollingPolicy>
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level--- %logger{50} - %msg%n</pattern>
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <pattern>
+                    <pattern>
+                        {"app_name": "${APP_NAME}", "log_time": "%date{\"yyyy-MM-dd'T'HH:mm:ss.SSSZ\"}", "thread":
+                        "%thread", "level": "%level", "logger": "%logger", "msg": "%message", "stack_trace":
+                        "%exception" , "txid": "%X{PtxId}", "spanid":"%X{PspanId}" }
+                    </pattern>
+                </pattern>
+            </providers>
         </encoder>
     </appender>
 
-    <!-- error log -->
-    <appender name="FILE-ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>ERROR</level>
-            <onMatch>ACCEPT</onMatch>
-            <onMismatch>DENY</onMismatch>
-        </filter>
-        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <FileNamePattern>${LOG_HOME_ERROR}</FileNamePattern>
-            <MaxHistory>30</MaxHistory>
-            <MaxFileSize>100MB</MaxFileSize>
-            <TotalSizeCap>3GB</TotalSizeCap>
-        </rollingPolicy>
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level--- %logger{50} - %msg%n</pattern>
-        </encoder>
-    </appender>
 
     <!--myibatis log configure-->
-    <logger name="com.apache.ibatis" level="TRACE"/>
-    <logger name="java.sql.Connection" level="DEBUG"/>
-    <logger name="java.sql.Statement" level="DEBUG"/>
-    <logger name="java.sql.PreparedStatement" level="DEBUG"/>
+    <logger name="org.mybatis" level="INFO"/>
+    <logger name="com.apache.ibatis" level="INFO"/>
+    <logger name="java.sql.Connection" level="INFO"/>
+    <logger name="java.sql.Statement" level="INFO"/>
+    <logger name="java.sql.PreparedStatement" level="INFO"/>
 
     <!-- 日志输出级别 :Debug,Info,Warn,Error,Fatal -->
     <root level="INFO">
-        <appender-ref ref="STDOUT"/>
-        <appender-ref ref="FILE-INFO"/>
-        <appender-ref ref="FILE-WARN"/>
-        <appender-ref ref="FILE-ERROR"/>
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+        <!--<appender-ref ref="ELK" />-->
     </root>
 
 </configuration>
