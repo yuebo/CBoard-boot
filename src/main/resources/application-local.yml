@@ -36,14 +36,6 @@ spring:
     content-type: text/html
     template-loader-path: classpath:/templates/config/
 
-cas:
-  client:
-    url: http://localhost:8026
-    check: ${cas.client.url}/login/cas
-  server:
-    url: http://your-casserver-ip/caso
-    login: ${cas.server.url}/login
-    logout: ${cas.server.url}/logout?service=${cas.client.url}
 log:
   negativeFilter: List\\.do
   positveFilter:
