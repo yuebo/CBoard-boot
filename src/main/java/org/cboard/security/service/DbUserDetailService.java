@@ -1,6 +1,6 @@
 package org.cboard.security.service;
 
-import org.cboard.dto.User;
+import org.cboard.modules.dto.User;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;

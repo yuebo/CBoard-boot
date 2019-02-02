@@ -298,6 +298,28 @@
             </plugin>
         </plugins>
 
+        <resources>
+            <resource>
+                <directory>${basedir}/src/main/java</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+            <!--<resource>
+                <directory>${basedir}/src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*.yml</include>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                    <include>**/*.sql</include>
+                    <include>**/*.ftl</include>
+                    <include>**/*.html</include>
+                </includes>
+            </resource>-->
+        </resources>
+
     </build>
 
 

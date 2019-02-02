@@ -1,6 +1,6 @@
 package org.cboard.security;
 
-import org.cboard.dto.User;
+import org.cboard.modules.dto.User;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.authority.AuthorityUtils;
 

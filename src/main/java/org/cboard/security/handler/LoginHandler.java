@@ -1,10 +1,9 @@
 package org.cboard.security.handler;
 
-import org.cboard.dto.CBoardActionLog;
-import org.cboard.dto.User;
+import org.cboard.modules.dto.CBoardActionLog;
+import org.cboard.modules.dto.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 

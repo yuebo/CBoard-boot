@@ -1,7 +1,7 @@
 package org.cboard.security.service;
 
-import org.cboard.dto.User;
-import org.cboard.services.AuthenticationService;
+import org.cboard.modules.dto.User;
+import org.cboard.modules.services.AuthenticationService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;

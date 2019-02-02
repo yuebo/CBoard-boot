@@ -1,17 +1,9 @@
 package org.cboard.security.service;
 
-import org.cboard.dao.UserDao;
-import org.cboard.dto.User;
-import org.jasig.cas.client.validation.Assertion;
+import org.cboard.modules.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.cas.userdetails.AbstractCasAssertionUserDetailsService;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.Assert;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @SuppressWarnings("deprecation")
 //public final class UserDetailsService extends AbstractCasAssertionUserDetailsService {

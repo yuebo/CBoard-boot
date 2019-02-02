@@ -4,7 +4,6 @@ import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.support.spring.stat.DruidStatInterceptor;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.mybatis.spring.SqlSessionFactoryBean;
-import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.aop.Advisor;
@@ -15,7 +14,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,8 +25,6 @@ import java.util.Properties;
  * @create 2018-07-25
  * @desc
  **/
-@MapperScan("org.cboard.dao")
-@EnableTransactionManagement
 @Import(PropertiesConfig.class)
 public class DataSourceConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(DataSourceConfig.class);
