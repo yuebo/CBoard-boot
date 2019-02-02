@@ -1,10 +1,12 @@
 package org.cboard.modules.dto;
 
+import lombok.Data;
 import org.cboard.dataprovider.config.AggConfig;
 import org.cboard.dataprovider.config.ConfigComponent;
 import org.cboard.dataprovider.config.DimensionConfig;
 import org.cboard.dataprovider.config.ValueConfig;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,8 +14,10 @@ import java.util.stream.Collectors;
 /**
  * Created by yfyuan on 2017/4/27.
  */
-public class ViewAggConfig {
+@Data
+public class ViewAggConfig implements Serializable {
 
+    private static final long serialVersionUID = 6426669983848853273L;
     private List<DimensionConfig> rows;
     private List<DimensionConfig> columns;
     private List<DimensionConfig> filters;
@@ -33,37 +37,5 @@ public class ViewAggConfig {
             return aggConfig;
         }
         return null;
-    }
-
-    public List<DimensionConfig> getRows() {
-        return rows;
-    }
-
-    public void setRows(List<DimensionConfig> rows) {
-        this.rows = rows;
-    }
-
-    public List<DimensionConfig> getColumns() {
-        return columns;
-    }
-
-    public void setColumns(List<DimensionConfig> columns) {
-        this.columns = columns;
-    }
-
-    public List<DimensionConfig> getFilters() {
-        return filters;
-    }
-
-    public void setFilters(List<DimensionConfig> filters) {
-        this.filters = filters;
-    }
-
-    public List<ValueConfig> getValues() {
-        return values;
-    }
-
-    public void setValues(List<ValueConfig> values) {
-        this.values = values;
     }
 }

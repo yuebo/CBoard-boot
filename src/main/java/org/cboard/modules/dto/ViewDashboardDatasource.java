@@ -2,17 +2,21 @@ package org.cboard.modules.dto;
 
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Function;
+import lombok.Data;
 import org.cboard.modules.pojo.DashboardDatasource;
 import org.cboard.modules.services.role.RolePermission;
 
 import javax.annotation.Nullable;
+import java.io.Serializable;
 import java.util.Map;
 
 /**
  * Created by yfyuan on 2016/8/19.
  */
-public class ViewDashboardDatasource {
+@Data
+public class ViewDashboardDatasource implements Serializable {
 
+    private static final long serialVersionUID = 4136902429685971398L;
     private Long id;
     private String userId;
     private String name;
@@ -45,93 +49,5 @@ public class ViewDashboardDatasource {
         this.loginName = datasource.getLoginName();
         this.createTime = datasource.getCreateTime().toString();
         this.updateTime = datasource.getUpdateTime().toString();
-    }
-
-    public boolean isEdit() {
-        return edit;
-    }
-
-    public void setEdit(boolean edit) {
-        this.edit = edit;
-    }
-
-    public boolean isDelete() {
-        return delete;
-    }
-
-    public void setDelete(boolean delete) {
-        this.delete = delete;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public Map<String, Object> getConfig() {
-        return config;
-    }
-
-    public void setConfig(Map<String, Object> config) {
-        this.config = config;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getLoginName() {
-        return loginName;
-    }
-
-    public void setLoginName(String loginName) {
-        this.loginName = loginName;
-    }
-
-    public String getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
-    }
-
-    public String getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(String updateTime) {
-        this.updateTime = updateTime;
     }
 }

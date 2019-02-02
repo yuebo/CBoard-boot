@@ -1,18 +1,22 @@
 package org.cboard.modules.dto;
 
 import com.alibaba.fastjson.JSONObject;
+import lombok.Data;
 import org.apache.commons.collections4.map.HashedMap;
 import org.cboard.modules.pojo.DashboardJob;
 import org.cboard.modules.services.role.RolePermission;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
 
 /**
  * Created by yfyuan on 2017/2/20.
  */
-public class ViewDashboardJob {
+@Data
+public class ViewDashboardJob implements Serializable {
 
+    private static final long serialVersionUID = -729174594455921007L;
     private Long id;
     private String name;
     private String cronExp;
@@ -49,107 +53,4 @@ public class ViewDashboardJob {
         this.delete = RolePermission.isDelete(job.getPermission());
     }
 
-    public boolean isEdit() {
-        return edit;
-    }
-
-    public void setEdit(boolean edit) {
-        this.edit = edit;
-    }
-
-    public boolean isDelete() {
-        return delete;
-    }
-
-    public void setDelete(boolean delete) {
-        this.delete = delete;
-    }
-
-    public String getExecLog() {
-        return execLog;
-    }
-
-    public void setExecLog(String execLog) {
-        this.execLog = execLog;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getCronExp() {
-        return cronExp;
-    }
-
-    public void setCronExp(String cronExp) {
-        this.cronExp = cronExp;
-    }
-
-    public Map<String, Object> getDaterange() {
-        return daterange;
-    }
-
-    public void setDaterange(Map<String, Object> daterange) {
-        this.daterange = daterange;
-    }
-
-    public String getJobType() {
-        return jobType;
-    }
-
-    public void setJobType(String jobType) {
-        this.jobType = jobType;
-    }
-
-    public Map<String, Object> getConfig() {
-        return config;
-    }
-
-    public void setConfig(Map<String, Object> config) {
-        this.config = config;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public Date getLastExecTime() {
-        return lastExecTime;
-    }
-
-    public void setLastExecTime(Date lastExecTime) {
-        this.lastExecTime = lastExecTime;
-    }
-
-    public Long getJobStatus() {
-        return jobStatus;
-    }
-
-    public void setJobStatus(Long jobStatus) {
-        this.jobStatus = jobStatus;
-    }
 }

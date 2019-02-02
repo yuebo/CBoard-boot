@@ -1,13 +1,18 @@
 package org.cboard.modules.dto;
 
+import lombok.Data;
 import org.cboard.modules.pojo.DashboardRoleRes;
 import org.cboard.modules.services.role.RolePermission;
+
+import java.io.Serializable;
 
 /**
  * Created by yfyuan on 2017/3/14.
  */
-public class ViewDashboardRoleRes {
+@Data
+public class ViewDashboardRoleRes implements Serializable {
 
+    private static final long serialVersionUID = -3126025679614897840L;
     private Long roleResId;
     private String roleId;
     private Long resId;
@@ -25,51 +30,4 @@ public class ViewDashboardRoleRes {
         this.delete = RolePermission.isDelete(dashboardRoleRes.getPermission());
     }
 
-    public boolean isEdit() {
-        return edit;
-    }
-
-    public void setEdit(boolean edit) {
-        this.edit = edit;
-    }
-
-    public boolean isDelete() {
-        return delete;
-    }
-
-    public void setDelete(boolean delete) {
-        this.delete = delete;
-    }
-
-    public Long getRoleResId() {
-        return roleResId;
-    }
-
-    public void setRoleResId(Long roleResId) {
-        this.roleResId = roleResId;
-    }
-
-    public String getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(String roleId) {
-        this.roleId = roleId;
-    }
-
-    public Long getResId() {
-        return resId;
-    }
-
-    public void setResId(Long resId) {
-        this.resId = resId;
-    }
-
-    public String getResType() {
-        return resType;
-    }
-
-    public void setResType(String resType) {
-        this.resType = resType;
-    }
 }
