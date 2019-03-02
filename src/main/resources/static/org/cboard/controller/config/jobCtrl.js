@@ -154,7 +154,7 @@ cBoard.controller('jobCtrl', function ($scope, $rootScope, $http, dataService, $
 
     $scope.deleteJob = function (job) {
         ModalUtils.confirm(translate("COMMON.CONFIRM_DELETE"), "modal-info", "lg", function () {
-            $http.post("dashboard/deleteJob", {id: job.id}).success(function (serviceStatus) {
+            $http.post("dashboard/deleteJob", {id: job.id, jopType: job.jobType}).success(function (serviceStatus) {
                 if (serviceStatus.status == '1') {
                     $scope.loadJobList();
                 } else {

@@ -10,23 +10,20 @@ import org.cboard.modules.services.ServiceStatus;
 import org.quartz.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.TimeZone;
 
 /**
  * Created by yfyuan on 2017/2/17.
  */
 @Service
-public class JobService implements InitializingBean {
+public class JobService {
 
     @Autowired
     private SchedulerFactoryBean schedulerFactoryBean;
@@ -34,53 +31,45 @@ public class JobService implements InitializingBean {
     @Autowired
     private JobDao jobDao;
 
-    @Value("${admin_user_id}")
-    private String adminUserId;
-
     @Autowired
     private MailService mailService;
 
     private static Logger LOG = LoggerFactory.getLogger(JobService.class);
 
-    public void configScheduler() {
-        Scheduler scheduler = schedulerFactoryBean.getScheduler();
+    public static final String JOB_TYPE_MAIL = "mail";
 
+    public void scheduleJob(DashboardJob job) {
         try {
-            scheduler.clear();
-        } catch (SchedulerException e) {
-            LOG.error("" , e);
-        }
-        List<DashboardJob> jobList = jobDao.getJobList(adminUserId);
-        for (DashboardJob job : jobList) {
-            try {
-                long startTimeStamp = job.getStartDate().getTime();
-                long endTimeStamp = job.getEndDate().getTime();
-                if (endTimeStamp < System.currentTimeMillis()) {
-                    // Skip expired job
-                    continue;
-                }
-                JobDetail jobDetail = JobBuilder.newJob(getJobExecutor(job)).withIdentity(job.getId().toString()).build();
-                CronTrigger trigger = TriggerBuilder.newTrigger()
-                        .startAt(new Date().getTime() < startTimeStamp ? job.getStartDate() : new Date())
-                        .withSchedule(CronScheduleBuilder.cronSchedule(job.getCronExp()))
-                        .endAt(job.getEndDate())
-                        .build();
-                jobDetail.getJobDataMap().put("job", job);
-                scheduler.scheduleJob(jobDetail, trigger);
-            } catch (SchedulerException e) {
-                LOG.error("{} Job id: {}", e.getMessage(), job.getId());
-            } catch (Exception e) {
-                LOG.error("" , e);
+            long startTimeStamp = job.getStartDate().getTime();
+            long endTimeStamp = job.getEndDate().getTime();
+            if (endTimeStamp < System.currentTimeMillis()) {
+                // Skip expired job
+                return;
             }
+            JobDetail jobDetail = JobBuilder.newJob(getJobExecutor(job))
+                    .withIdentity(job.getId().toString(), job.getJobType())
+                    .build();
+            CronTrigger trigger = TriggerBuilder.newTrigger()
+                    .startAt(System.currentTimeMillis() < startTimeStamp ? job.getStartDate() : new Date())
+                    .withSchedule(CronScheduleBuilder.cronSchedule(job.getCronExp()))
+                    .endAt(job.getEndDate())
+                    .build();
+            jobDetail.getJobDataMap().put("job", job);
+            schedulerFactoryBean.getScheduler().scheduleJob(jobDetail, trigger);
+        } catch (SchedulerException e) {
+            LOG.error("{} Job id: {}", e.getMessage(), job.getId());
+        } catch (Exception e) {
+            LOG.error("", e);
         }
     }
 
     private Class<? extends Job> getJobExecutor(DashboardJob job) {
         switch (job.getJobType()) {
-            case "mail":
+            case JOB_TYPE_MAIL:
                 return MailJobExecutor.class;
+            default:
+                return null;
         }
-        return null;
     }
 
     protected void sendMail(DashboardJob job) {
@@ -90,7 +79,7 @@ public class JobService implements InitializingBean {
             mailService.sendDashboard(job);
             jobDao.updateStatus(job.getId(), ViewDashboardJob.STATUS_FINISH, "");
         } catch (Exception e) {
-            LOG.error("" , e);
+            LOG.error("", e);
             jobDao.updateStatus(job.getId(), ViewDashboardJob.STATUS_FAIL, ExceptionUtils.getStackTrace(e));
         }
     }
@@ -108,15 +97,16 @@ public class JobService implements InitializingBean {
             job.setStartDate(format.parse(jsonObject.getJSONObject("daterange").getString("startDate")));
             job.setEndDate(format.parse(jsonObject.getJSONObject("daterange").getString("endDate")));
         } catch (ParseException e) {
-            LOG.error("" , e);
+            LOG.error("", e);
         }
         job.setJobType(jsonObject.getString("jobType"));
         jobDao.save(job);
-        configScheduler();
+
+        scheduleJob(job);
         return new ServiceStatus(ServiceStatus.Status.Success, "success");
     }
 
-    public ServiceStatus update(String userId, String json) {
+    public ServiceStatus update(String userId, String json) throws SchedulerException {
         JSONObject jsonObject = JSONObject.parseObject(json);
         DashboardJob job = new DashboardJob();
         job.setId(jsonObject.getLong("id"));
@@ -129,17 +119,19 @@ public class JobService implements InitializingBean {
             job.setStartDate(format.parse(jsonObject.getJSONObject("daterange").getString("startDate")));
             job.setEndDate(format.parse(jsonObject.getJSONObject("daterange").getString("endDate")));
         } catch (ParseException e) {
-            LOG.error("" , e);
+            LOG.error("", e);
         }
         job.setJobType(jsonObject.getString("jobType"));
         jobDao.update(job);
-        configScheduler();
+        schedulerFactoryBean.getScheduler().deleteJob(new JobKey(String.valueOf(job.getId()), job.getJobType()));
+        scheduleJob(job);
         return new ServiceStatus(ServiceStatus.Status.Success, "success");
     }
 
-    public ServiceStatus delete(String userId, Long id) {
+    public ServiceStatus delete(String userId, Long id, String type) throws SchedulerException {
         jobDao.delete(id);
-        configScheduler();
+        Scheduler scheduler = schedulerFactoryBean.getScheduler();
+        scheduler.deleteJob(new JobKey(String.valueOf(id), type));
         return new ServiceStatus(ServiceStatus.Status.Success, "success");
     }
 
@@ -151,8 +143,4 @@ public class JobService implements InitializingBean {
         return new ServiceStatus(ServiceStatus.Status.Success, "success");
     }
 
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        configScheduler();
-    }
 }

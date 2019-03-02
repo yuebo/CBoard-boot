@@ -8,16 +8,17 @@ import com.google.common.collect.Maps;
 import com.google.common.hash.Hashing;
 import org.apache.commons.io.IOUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.cboard.modules.dao.*;
 import org.cboard.dataprovider.DataProviderManager;
 import org.cboard.dataprovider.DataProviderViewManager;
 import org.cboard.dataprovider.config.AggConfig;
 import org.cboard.dataprovider.result.AggregateResult;
+import org.cboard.modules.dao.*;
 import org.cboard.modules.dto.*;
 import org.cboard.modules.pojo.*;
 import org.cboard.modules.services.*;
 import org.cboard.modules.services.job.JobService;
 import org.cboard.modules.services.persist.excel.XlsProcessService;
+import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -358,7 +359,7 @@ public class DashboardController extends BaseController {
     }
 
     @RequestMapping(value = "/updateJob")
-    public ServiceStatus updateJob(@RequestParam(name = "json") String json) {
+    public ServiceStatus updateJob(@RequestParam(name = "json") String json) throws SchedulerException {
         return jobService.update(tlUser.get().getUserId(), json);
     }
 
@@ -368,8 +369,8 @@ public class DashboardController extends BaseController {
     }
 
     @RequestMapping(value = "/deleteJob")
-    public ServiceStatus deleteJob(@RequestParam(name = "id") Long id) {
-        return jobService.delete(tlUser.get().getUserId(), id);
+    public ServiceStatus deleteJob(Long id, String jopType) throws SchedulerException {
+        return jobService.delete(tlUser.get().getUserId(), id, jopType);
     }
 
     @RequestMapping(value = "/execJob")
@@ -453,7 +454,7 @@ public class DashboardController extends BaseController {
 
     private String imgPath(HttpServletRequest request) {
         String templateDir = request.getSession().getServletContext().getRealPath("/");
-        templateDir = templateDir.replace("\\","/");
+        templateDir = templateDir.replace("\\", "/");
         templateDir = templateDir + "imgs/cockpit";
         return templateDir;
     }
