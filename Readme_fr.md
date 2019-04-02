@@ -26,3 +26,4 @@
 * 增加任务调度
 * MVVM替换
 * 解决Spring-boot部分功能不兼容
+* [Phantomjs](https://github.com/ariya/phantomjs) 替换成 [puppeteer](https://github.com/GoogleChrome/puppeteer)
