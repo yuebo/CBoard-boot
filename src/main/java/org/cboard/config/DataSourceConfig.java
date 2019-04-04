@@ -12,6 +12,7 @@ import org.springframework.aop.support.JdkRegexpMethodPointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
@@ -44,6 +45,7 @@ public class DataSourceConfig {
         return basicDataSource;
     }
 
+    @Primary
     @Bean(name = "druidDataSource")
     public DruidDataSource druidDataSource() {
         DruidDataSource ds = new DruidDataSource();
@@ -74,21 +76,21 @@ public class DataSourceConfig {
         return ds;
     }
 
-    @Bean(name = "sqlSessionFactory")
-    public SqlSessionFactoryBean sqlSessionFactoryBean(DruidDataSource druidDataSource) {
-        SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
-        sqlSessionFactoryBean.setDataSource(druidDataSource);
-        try {
-            sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:mapper/*.xml"));
-            Properties properties = new Properties();
-            InputStream in = DataSourceConfig.class.getClassLoader().getResourceAsStream("application.yml");
-            properties.load(in);
-            sqlSessionFactoryBean.setConfigurationProperties(properties);
-        } catch (IOException e) {
-            LOGGER.error("sqlSessionFactoryBean setMapperLocations is error", e);
-        }
-        return sqlSessionFactoryBean;
-    }
+//    @Bean(name = "sqlSessionFactory")
+//    public SqlSessionFactoryBean sqlSessionFactoryBean(DruidDataSource druidDataSource) {
+//        SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
+//        sqlSessionFactoryBean.setDataSource(druidDataSource);
+//        try {
+//            sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:mapper/*.xml"));
+//            Properties properties = new Properties();
+//            InputStream in = DataSourceConfig.class.getClassLoader().getResourceAsStream("application.yml");
+//            properties.load(in);
+//            sqlSessionFactoryBean.setConfigurationProperties(properties);
+//        } catch (IOException e) {
+//            LOGGER.error("sqlSessionFactoryBean setMapperLocations is error", e);
+//        }
+//        return sqlSessionFactoryBean;
+//    }
 
     @Bean(name = "transactionManager")
     public DataSourceTransactionManager dataSourceTransactionManager(DruidDataSource druidDataSource) {

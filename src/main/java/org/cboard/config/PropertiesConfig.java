@@ -9,10 +9,11 @@ import org.springframework.context.annotation.Configuration;
  * @create 2018-07-31
  * @desc
  **/
+@Configuration
 @Data
 public class PropertiesConfig {
 
-    @Value("${spring.datasource.druidDataSource.validationQuery}")
+    @Value("${spring.datasource.druidDataSource.validationQuery:SELECT 1}")
     private String validationQuery;
 
     @Value("${spring.datasource.druidDataSource.username:root}")
