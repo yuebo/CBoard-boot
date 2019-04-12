@@ -21,6 +21,7 @@
 现在技术栈
 * ~~Velocity~~ Freemark
 * ~~Spring-webmvc~~ Spring-boot
+* ~~apache-commons-email~~ javax.mail
 
 下一步  
 * 增加任务调度
