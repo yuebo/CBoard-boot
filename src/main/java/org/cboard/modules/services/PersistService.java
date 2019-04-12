@@ -1,25 +1,26 @@
 package org.cboard.modules.services;
 
 import com.alibaba.fastjson.JSONObject;
-import org.cboard.modules.dao.BoardDao;
 import org.cboard.exception.CBoardException;
-import org.cboard.security.service.LocalSecurityFilter;
+import org.cboard.modules.dao.BoardDao;
 import org.cboard.modules.services.persist.PersistContext;
+import org.cboard.security.service.LocalSecurityFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
-import java.net.URLDecoder;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by yfyuan on 2017/2/10.
@@ -29,11 +30,14 @@ public class PersistService {
 
     private static final Logger LOG = LoggerFactory.getLogger(PersistService.class);
 
+    @Value("${phantom_path}")
+    private String phantomPath;
+
     @Value("${phantomjs_path}")
     private String phantomjsPath;
+
     @Autowired
     private BoardDao boardDao;
-    private String scriptPath = System.getProperty("user.dir") + File.separator + "src/main/resources/static/phantom.js";
 
     private static int POOL_SIZE = 2;
     private static int cpuNums = Runtime.getRuntime().availableProcessors();
@@ -43,7 +47,6 @@ public class PersistService {
 
     public PersistContext persist(Long dashboardId, String userId) {
 
-//        final CountDownLatch cdl = new CountDownLatch(1);
         String persistId = UUID.randomUUID().toString().replaceAll("-", "");
         Process process = null;
         try {
@@ -62,9 +65,8 @@ public class PersistService {
                     .append("#?id=").append(dashboardId)
                     .append("&pid=").append(persistId)
                     .toString();
-            scriptPath = URLDecoder.decode(scriptPath, "UTF-8"); // decode whitespace
 
-            List cmd = Arrays.asList(phantomjsPath, scriptPath, phantomUrl);
+            List cmd = Arrays.asList(phantomPath, phantomjsPath, phantomUrl);
             LOG.info("Run phantomjs command: {}", cmd);
             ProcessBuilder builder = new ProcessBuilder(cmd);
             builder.redirectErrorStream(true);
@@ -80,7 +82,6 @@ public class PersistService {
                         LOG.info(line);
                     }
                     int rs = p.waitFor();
-//                    cdl.countDown();
                     LOG.info("Finished command = {}, waitForResult = {}", cmd, rs);
                 } catch (Exception e) {
                     LOG.error("Error", e);
@@ -98,7 +99,6 @@ public class PersistService {
             synchronized (context) {
                 context.wait(10 * 60 * 1000);
             }
-//            cdl.await(10, TimeUnit.SECONDS);
             TASK_MAP.remove(persistId);
             return context;
         } catch (Exception e) {

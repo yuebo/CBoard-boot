@@ -35,21 +35,25 @@ spring:
     suffix: .ftl
     content-type: text/html
     template-loader-path: classpath:/templates/config/
-
+  mail:
+    host: smtp.163.com
+    username: username
+    password: password
+    from: password
+    port: 465
+    default-encoding: UTF-8
+    properties:
+      mail:
+          smtp:
+              auth: true
+              socketFactory:
+                  class: javax.net.ssl.SSLSocketFactory
 log:
   negativeFilter: List\\.do
   positveFilter:
 dataprovider:
   resultLimit: 1000000
-mail:
-  smtp:
-    host: 127.0.0.1
-    port: 8825
-    from: test@test.com
-#    username:
-#    password:
-#    ssl:
-#      checkserveridentity: false
-#      startTLSEnabled: false
 admin_user_id: 1
-phantomjs_path: D:/Program Files/phantomjs-2.1.1/bin/phantomjs.exe
+
+phantom_path: D:/Program Files/phantomjs-2.1.1/bin/phantomjs.exe
+phantomjs_path: E:\github\CBoard\src\main\resources\static\phantom.js
