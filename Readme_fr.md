@@ -24,7 +24,7 @@
 * ~~apache-commons-email~~ javax.mail
 
 下一步  
-* 增加任务调度
+* 增加任务调度(暂停)
 * MVVM替换
 * 解决Spring-boot部分功能不兼容
-* [Phantomjs](https://github.com/ariya/phantomjs) 替换成 [puppeteer](https://github.com/GoogleChrome/puppeteer)
+* [Phantomjs](https://github.com/ariya/phantomjs) 替换成 [puppeteer](https://github.com/GoogleChrome/puppeteer)（暂停)
