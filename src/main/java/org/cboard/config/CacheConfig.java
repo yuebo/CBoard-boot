@@ -24,7 +24,7 @@ public class CacheConfig {
     @Autowired
     private RedisTemplate redisTemplate;
 
-    @Bean(name = "rawDataCache")
+//    @Bean(name = "rawDataCache")
     public EhCacheManager ehCacheManager() {
         EhCacheManager ehCacheManager = new EhCacheManager();
         ehCacheManager.setCacheAlias("jvmAggregator");

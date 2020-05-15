@@ -21,8 +21,8 @@ public class EhCacheManager<T> implements CacheManager<T>, InitializingBean, Dis
     private String cacheAlias;
 
     static {
-        myCacheManager = CacheManagerBuilder.newCacheManagerBuilder().withCache("jvmAggregator",
-                CacheConfigurationBuilder.newCacheConfigurationBuilder(String.class, CacheObject.class, ResourcePoolsBuilder.heap(100)).build()).build(true);
+//        myCacheManager = CacheManagerBuilder.newCacheManagerBuilder().withCache("jvmAggregator",
+//                CacheConfigurationBuilder.newCacheConfigurationBuilder(String.class, CacheObject.class, ResourcePoolsBuilder.heap(100)).build()).build(true);
     }
 
     @Override
@@ -56,6 +56,6 @@ public class EhCacheManager<T> implements CacheManager<T>, InitializingBean, Dis
 
     @Override
     public void destroy() throws Exception {
-        EhCacheManager.myCacheManager.close();
+//        EhCacheManager.myCacheManager.close();
     }
 }
