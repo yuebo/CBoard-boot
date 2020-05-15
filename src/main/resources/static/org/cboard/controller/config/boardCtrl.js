@@ -219,6 +219,14 @@ cBoard.controller('boardCtrl',
             row.widgets.push(w);
         };
 
+        /*添加行内参数*/
+        $scope.addWidgetPramRow = function (row) {
+            if (!row.paramRows){
+                row.paramRows = [];
+            }
+            row.paramRows.push({type: 'param', params: []});
+        };
+
         $scope.addRow = function () {
             var row = {type: 'widget', widgets: []};
             $scope.curBoard.layout.rows.push(row);
