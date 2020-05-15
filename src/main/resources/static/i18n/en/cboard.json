@@ -259,6 +259,7 @@
       "PARAM_TYPE": "Param Type",
       "PARAM_TYPE_SELECTOR": "Selector",
       "PARAM_TYPE_SLIDER": "Slider",
+      "PARAM_TYPE_DATE_PICKER": "DatePicker",
       "CHART_NAME":"Chart Name",
       "ENTER_PARAMETER_NAME": "Please enter the parameter name",
       "DASHBOARD_SOMETHING_WRONG": "Some widget access errors, please check the config of the dashboard!",
