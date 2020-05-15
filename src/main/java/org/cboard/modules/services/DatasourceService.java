@@ -1,9 +1,9 @@
 package org.cboard.modules.services;
 
 import com.alibaba.fastjson.JSONObject;
-import org.cboard.modules.dao.DatasourceDao;
 import org.cboard.dataprovider.DataProviderManager;
 import org.cboard.dataprovider.annotation.DatasourceParameter;
+import org.cboard.modules.dao.DatasourceDao;
 import org.cboard.modules.dto.ViewDashboardDatasource;
 import org.cboard.modules.pojo.DashboardDatasource;
 import org.cboard.modules.services.role.RolePermission;
@@ -60,12 +60,18 @@ public class DatasourceService {
         Map<String, Object> paramMap = new HashMap<String, Object>();
         paramMap.put("user_id", datasource.getUserId());
         paramMap.put("source_name", datasource.getName());
-        if (datasourceDao.countExistDatasourceName(paramMap) <= 0) {
-            datasourceDao.save(datasource);
-            return new ServiceStatus(ServiceStatus.Status.Success, "success");
+
+        if (jsonObject.getLong("id") != null) { // 判断前端是否传递id，如果有id，那么执行更新操作
+            return update(userId, json); // 如果判断数据库中有同名的数据集就执行更新操作
         } else {
-            return new ServiceStatus(ServiceStatus.Status.Fail, "Duplicated Name!");
+            if (datasourceDao.countExistDatasourceName(paramMap) <= 0) {
+                datasourceDao.save(datasource);
+                return new ServiceStatus(ServiceStatus.Status.Success, "success", datasource.getId());
+            } else {
+                return new ServiceStatus(ServiceStatus.Status.Fail, "Duplicated Name!");
+            }
         }
+
     }
 
     public ServiceStatus update(String userId, String json) {
