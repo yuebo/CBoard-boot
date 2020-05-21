@@ -4,6 +4,8 @@ CBoard
 [![SpringBoot](https://img.shields.io/badge/SpringBoot-2.1.x-green.svg)](https://spring.io/projects/spring-boot)
 [![License](https://img.shields.io/badge/License-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
+[中文](Readme_zh.md)  
+
 CBoard is not only a analysis platform that supports interactive multi-dimensional report design and data analysis for user, but also a BI product development platform for developer.
 Powered by [Shanhai Chuguo Information and Technology Co., Ltd.](http://www.chuguotech.com/)
 - **Normal User** can analysis your data or design a report by simple drag and drop operation
