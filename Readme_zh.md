@@ -4,19 +4,19 @@ CBoard由[上海楚果信息技术有限公司](http://www.chuguotech.com/)主�
 - **开发者**能够简单扩展连接所有你的Java程序能够触及的数据
 
 <div style="text-align:center">
-  <img class="img-responsive" src="./imgs/zh-cn-widget-one-shot.png"  />
+  <img class="img-responsive" src="https://raw.githubusercontent.com/wiki/Zhazhanan/cboard/images/home/zh-cn-widget-one-shot.png"  />
 </div>
 
 ## CBoard社区版用户
 希望你们logo出现在此, [请点击登记@Github](https://github.com/TuiQiao/CBoard/issues/122), 或者[请点击登记@Gitee](https://gitee.com/tuiqiao/CBoard/issues/IMLIJ)提供一张无底色logo图片
 <div style="text-align:center">
-  <img class="img-responsive" src="./imgs/custom-logos.png"  />
+  <img class="img-responsive" src="https://raw.githubusercontent.com/wiki/Zhazhanan/cboard/images/home/custom-logos.png"  />
 </div>
 
 ## 架构图
 轻量级的技术架构, 与国内开发者耳熟能详的技术栈, **自研多维分析引擎**, 完成您在数据分析最后一棒的重要接力. 清晰的性能优化线路, 小应用撬动大数据!
 <div style="text-align:center">
-  <img class="img-responsive" src="./imgs/arch2.png"  />
+  <img class="img-responsive" src="https://raw.githubusercontent.com/wiki/Zhazhanan/cboard/images/home/arch.png"  />
 </div>
 
 
