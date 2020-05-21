@@ -75,12 +75,13 @@ SDK级别外部集成  | :x: | :white_check_mark: 便于个性化集成
 ## 联系我们
 如果你喜欢我们的产品, 可以放心从我们的社区版开始使用, 在产品商业化的支持下同时我们会尽最大的努力维护上社区版的稳定, 后期在不影响公司业务的前提下, 会逐步开放更多的基础开发平台.
 在此期间, 所有提交的PR正常处理, 如果你发现产品有任何Bug, 请在Github[Issue模块](https://github.com/TuiQiao/CBoard/issues)向我们反馈.
-
-:books: 更多文档
-- [:cn: 帮助文档](http://peter_zhang921.gitee.io/cboard_docsify/#/zh-cn/)
-- [:uk: Document](https://tuiqiao.github.io/CBoardDoc/#/en-us/)
 > [要创建新issue，请遵循以下步骤](.github/ISSUE_TEMPLATE/ISSUE_TEMPLATE.md)  
   [要创建新PR，请遵循以下步骤](.github/ISSUE_TEMPLATE/PULL_REQUEST_TEMPLATE.md)
+
+## :books: 更多文档
+- [:cn: 帮助文档](http://peter_zhang921.gitee.io/cboard_docsify/#/zh-cn/)
+- [:uk: Document](https://tuiqiao.github.io/CBoardDoc/#/en-us/)
+
 
 ## Gitter交流 
 [![Gitter](https://badges.gitter.im/tuiqiao_cboard/community.svg)](https://gitter.im/tuiqiao_cboard/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)

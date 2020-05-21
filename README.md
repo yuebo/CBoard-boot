@@ -80,11 +80,13 @@ If you like our product, you can start from our community version. With the supp
 In future, without affecting the company's business, it will gradually open more basic development infrastructure.
 Any bugs or question please feel free to post at Github[Issue system](https://github.com/TuiQiao/CBoard/issues)
 
-## :books: More Document
-- [:cn: 帮助文档](http://peter_zhang921.gitee.io/cboard_docsify/#/zh-cn/)
-- [:uk: Document](https://tuiqiao.github.io/CBoardDoc/#/en-us/)
 > [To create a new issue, follow these steps](.github/ISSUE_TEMPLATE/ISSUE_TEMPLATE.md)  
   [To create a new pull request, follow these steps](.github/ISSUE_TEMPLATE/PULL_REQUEST_TEMPLATE.md)
 
-## Gitter交流 
+## :books: More Document
+- [:cn: 帮助文档](http://peter_zhang921.gitee.io/cboard_docsify/#/zh-cn/)
+- [:uk: Document](https://tuiqiao.github.io/CBoardDoc/#/en-us/)
+
+
+## Gitter 
 [![Gitter](https://badges.gitter.im/tuiqiao_cboard/community.svg)](https://gitter.im/tuiqiao_cboard/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
