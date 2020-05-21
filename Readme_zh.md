@@ -1,3 +1,9 @@
+CBoard
+============
+[![JDK](https://img.shields.io/badge/JDK-1.8+-blue.svg)](https://www.oracle.com/technetwork/java/javase/overview/index.html)
+[![SpringBoot](https://img.shields.io/badge/SpringBoot-2.1.x-green.svg)](https://spring.io/projects/spring-boot)
+[![License](https://img.shields.io/badge/License-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
+
 ## 介绍
 CBoard由[上海楚果信息技术有限公司](http://www.chuguotech.com/)主导开源, 它不仅仅是一款**自助BI数据分析**产品, 还是开放的**BI产品开发**平台:
 - **用户**只需简单妥妥拽拽就能自助完成数据多维分析与报表设计
