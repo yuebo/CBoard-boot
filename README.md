@@ -80,8 +80,8 @@ If you like our product, you can start from our community version. With the supp
 In future, without affecting the company's business, it will gradually open more basic development infrastructure.
 Any bugs or question please feel free to post at Github[Issue system](https://github.com/TuiQiao/CBoard/issues)
 
-> [To create a new issue, follow these steps](.github/ISSUE_TEMPLATE/ISSUE_TEMPLATE.md)  
-  [To create a new pull request, follow these steps](.github/ISSUE_TEMPLATE/PULL_REQUEST_TEMPLATE.md)
+> To create a new issue, follow these steps [click](.github/ISSUE_TEMPLATE/ISSUE_TEMPLATE.md)  
+  To create a new pull request, follow these steps [click](.github/ISSUE_TEMPLATE/PULL_REQUEST_TEMPLATE.md)
 
 ## :books: More Document
 - [:cn: 帮助文档](http://peter_zhang921.gitee.io/cboard_docsify/#/zh-cn/)
