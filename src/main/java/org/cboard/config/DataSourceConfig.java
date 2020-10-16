@@ -35,7 +35,7 @@ public class DataSourceConfig {
     @Autowired
     private PropertiesConfig propertiesConfig;
 
-    @Bean(name = "h2DataSource")
+    @Bean(name = "h2DataSource",destroyMethod = "")
     public BasicDataSource basicDataSource() {
         BasicDataSource basicDataSource = new BasicDataSource();
         basicDataSource.setDriverClassName("org.h2.Driver");
@@ -52,22 +52,6 @@ public class DataSourceConfig {
     public DruidDataSource druidDataSource(DataSourceProperties dataSourceProperties) {
         return DruidDataSourceBuilder.create().build();
     }
-
-//    @Bean(name = "sqlSessionFactory")
-//    public SqlSessionFactoryBean sqlSessionFactoryBean(DruidDataSource druidDataSource) {
-//        SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
-//        sqlSessionFactoryBean.setDataSource(druidDataSource);
-//        try {
-//            sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:mapper/*.xml"));
-//            Properties properties = new Properties();
-//            InputStream in = DataSourceConfig.class.getClassLoader().getResourceAsStream("application.yml");
-//            properties.load(in);
-//            sqlSessionFactoryBean.setConfigurationProperties(properties);
-//        } catch (IOException e) {
-//            LOGGER.error("sqlSessionFactoryBean setMapperLocations is error", e);
-//        }
-//        return sqlSessionFactoryBean;
-//    }
 
     @Bean(name = "transactionManager")
     public DataSourceTransactionManager dataSourceTransactionManager(DruidDataSource dataSource) {
