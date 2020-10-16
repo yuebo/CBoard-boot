@@ -3,7 +3,7 @@
     <label class="col-sm-2 control-label">${param.label}</label>
     <div class="col-sm-10">
         <#if param.type == "input">
-            <input ng-model="curWidget.query.$param.name" class="form-control" placeholder="$param.placeholder"/>
+            <input ng-model="curWidget.query.${param.name}" class="form-control" placeholder="${param.placeholder}"/>
         <#elseif param.type == "textarea">
             <div ui-ace="queryAceOpt" ng-model="curWidget.query.${param.name}" class="form-control"></div>
         <#elseif param.type == "textarea2">

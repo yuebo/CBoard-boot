@@ -25,10 +25,10 @@ public class BaseController {
 
     protected ThreadLocal<User> tlUser = new ThreadLocal<>();
 
-    @Value("${log.negativeFilter}")
+    @Value("${log.negativeFilter:List\\\\.do}")
     protected String negativeFilter;
 
-    @Value("${log.positveFilter}")
+    @Value("${log.positveFilter:}")
     protected String positveFilter;
 
     @ModelAttribute

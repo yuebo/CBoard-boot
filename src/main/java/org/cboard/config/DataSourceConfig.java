@@ -1,6 +1,7 @@
 package org.cboard.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
 import com.alibaba.druid.support.spring.stat.DruidStatInterceptor;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -10,6 +11,7 @@ import org.springframework.aop.Advisor;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.aop.support.JdkRegexpMethodPointcut;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
@@ -46,34 +48,9 @@ public class DataSourceConfig {
     }
 
     @Primary
-    @Bean(name = "druidDataSource")
-    public DruidDataSource druidDataSource() {
-        DruidDataSource ds = new DruidDataSource();
-        ds.setName("CBoard Meta Data");
-        ds.setUrl(propertiesConfig.getJdbcUrl());
-        ds.setUsername(propertiesConfig.getJdbcUsername());
-        ds.setPassword(propertiesConfig.getJdbcPassword());
-        ds.setInitialSize(0);
-        ds.setMaxActive(20);
-        ds.setMinIdle(0);
-        ds.setMaxWait(60000);
-        ds.setValidationQuery(propertiesConfig.getValidationQuery());
-        ds.setTestOnBorrow(false);
-        ds.setTestOnReturn(false);
-        ds.setTestWhileIdle(true);
-        ds.setTimeBetweenEvictionRunsMillis(60000);
-        ds.setMinEvictableIdleTimeMillis(25200000);
-        ds.setRemoveAbandoned(true);
-        ds.setRemoveAbandonedTimeout(1800);
-        ds.setLogAbandoned(true);
-        try {
-//            ds.setFilters("mergeStat,log4j");
-            ds.setFilters("mergeStat");
-        } catch (SQLException e) {
-            LOGGER.error("dataSourceConfig init error", e);
-        }
-        LOGGER.info("dataSourceConfig init ok");
-        return ds;
+    @Bean(name = "dataSource")
+    public DruidDataSource druidDataSource(DataSourceProperties dataSourceProperties) {
+        return DruidDataSourceBuilder.create().build();
     }
 
 //    @Bean(name = "sqlSessionFactory")
@@ -93,9 +70,9 @@ public class DataSourceConfig {
 //    }
 
     @Bean(name = "transactionManager")
-    public DataSourceTransactionManager dataSourceTransactionManager(DruidDataSource druidDataSource) {
+    public DataSourceTransactionManager dataSourceTransactionManager(DruidDataSource dataSource) {
         DataSourceTransactionManager dataSourceTransactionManager = new DataSourceTransactionManager();
-        dataSourceTransactionManager.setDataSource(druidDataSource);
+        dataSourceTransactionManager.setDataSource(dataSource);
         return dataSourceTransactionManager;
     }
 

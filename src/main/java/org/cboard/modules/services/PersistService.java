@@ -30,10 +30,10 @@ public class PersistService {
 
     private static final Logger LOG = LoggerFactory.getLogger(PersistService.class);
 
-    @Value("${phantom_path}")
+    @Value("${phantom_path:}")
     private String phantomPath;
 
-    @Value("${phantomjs_path}")
+    @Value("${phantomjs_path:}")
     private String phantomjsPath;
 
     @Autowired
