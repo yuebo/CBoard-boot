@@ -6,6 +6,7 @@ import com.google.common.base.Charsets;
 import com.google.common.hash.Hashing;
 import org.apache.commons.collections4.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
+import org.cboard.config.PropertiesConfig;
 import org.cboard.modules.dao.*;
 import org.cboard.modules.pojo.*;
 import org.cboard.modules.services.role.RolePermission;
@@ -26,8 +27,8 @@ import java.util.stream.Collectors;
 @Repository
 public class AdminSerivce {
 
-    @Value("${admin_user_id:1}")
-    private String adminUid;
+    @Autowired
+    private PropertiesConfig propertiesConfig;
 
     @Autowired
     private UserDao userDao;
@@ -109,7 +110,7 @@ public class AdminSerivce {
             Map<String, Object> params = new HashedMap();
             params.put("objUid", uid);
             params.put("curUid", curUid);
-            params.put("adminUid", adminUid);
+            params.put("adminUid", propertiesConfig.getAdminId());
             userDao.deleteUserRole(params);
             if (roleId != null && roleId.length > 0) {
                 List<DashboardUserRole> list = new ArrayList<>();
@@ -131,7 +132,7 @@ public class AdminSerivce {
         params.put("userIds", userId);
         params.put("roleIds", roleId);
         params.put("curUid", curUid);
-        params.put("adminUid", adminUid);
+        params.put("adminUid", propertiesConfig.getAdminId());
         userDao.deleteUserRoles(params);
         return "1";
     }
@@ -188,7 +189,7 @@ public class AdminSerivce {
     }
 
     public List<DashboardBoard> getBoardList(String userId) {
-        if (adminUid.equals(userId)) {
+        if (propertiesConfig.getAdminId().equals(userId)) {
             return boardDao.getBoardList(userId);
         } else {
             List<DashboardRoleRes> resList = roleDao.getUserRoleResList(userId, "board");
@@ -199,7 +200,7 @@ public class AdminSerivce {
     }
 
     public List<DashboardDataset> getDatasetList(String userId) {
-        if (adminUid.equals(userId)) {
+        if (propertiesConfig.getAdminId().equals(userId)) {
             return datasetDao.getDatasetList(userId);
         } else {
             List<DashboardRoleRes> resList = roleDao.getUserRoleResList(userId, "dataset");
@@ -209,7 +210,7 @@ public class AdminSerivce {
     }
 
     public List<DashboardWidget> getWidgetList(String userId) {
-        if (adminUid.equals(userId)) {
+        if (propertiesConfig.getAdminId().equals(userId)) {
             return widgetDao.getWidgetList(userId);
         } else {
             List<DashboardRoleRes> resList = roleDao.getUserRoleResList(userId, "widget");

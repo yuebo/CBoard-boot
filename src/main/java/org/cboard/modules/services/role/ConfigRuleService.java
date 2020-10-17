@@ -7,6 +7,7 @@ import com.google.common.collect.Lists;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.cboard.config.PropertiesConfig;
 import org.cboard.modules.dao.*;
 import org.cboard.modules.pojo.DashboardRole;
 import org.cboard.modules.services.AuthenticationService;
@@ -37,8 +38,8 @@ public class ConfigRuleService {
     @Autowired
     private RoleDao roleDao;
 
-    @Value("${admin_user_id}")
-    private String adminUserId;
+    @Autowired
+    private PropertiesConfig propertiesConfig;
 
     @Autowired
     private DatasetDao datasetDao;
@@ -54,7 +55,7 @@ public class ConfigRuleService {
             "execution(* org.cboard.modules.services.WidgetService.delete(..))")
     public Object widgetRule(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         String userid = authenticationService.getCurrentUser().getUserId();
-        if (userid.equals(adminUserId)) {
+        if (userid.equals(propertiesConfig.getAdminId())) {
             return proceedingJoinPoint.proceed();
         } else {
             List<Long> menuIdList = menuDao.getMenuIdByUserRole(userid);
@@ -70,7 +71,7 @@ public class ConfigRuleService {
             "execution(* org.cboard.modules.services.DatasetService.delete(..))")
     public Object datasetRule(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         String userid = authenticationService.getCurrentUser().getUserId();
-        if (userid.equals(adminUserId)) {
+        if (userid.equals(propertiesConfig.getAdminId())) {
             return proceedingJoinPoint.proceed();
         } else {
             List<Long> menuIdList = menuDao.getMenuIdByUserRole(userid);
@@ -86,7 +87,7 @@ public class ConfigRuleService {
             "execution(* org.cboard.modules.services.DatasourceService.delete(..))")
     public Object datasourceRule(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         String userid = authenticationService.getCurrentUser().getUserId();
-        if (userid.equals(adminUserId)) {
+        if (userid.equals(propertiesConfig.getAdminId())) {
             return proceedingJoinPoint.proceed();
         } else {
             List<Long> menuIdList = menuDao.getMenuIdByUserRole(userid);
@@ -102,7 +103,7 @@ public class ConfigRuleService {
             "execution(* org.cboard.modules.services.BoardService.delete(..))")
     public Object boardRule(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         String userid = authenticationService.getCurrentUser().getUserId();
-        if (userid.equals(adminUserId)) {
+        if (userid.equals(propertiesConfig.getAdminId())) {
             return proceedingJoinPoint.proceed();
         } else {
             List<Long> menuIdList = menuDao.getMenuIdByUserRole(userid);
@@ -118,7 +119,7 @@ public class ConfigRuleService {
             "execution(* org.cboard.modules.services.CategoryService.delete(..))")
     public Object categoryRule(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         String userid = authenticationService.getCurrentUser().getUserId();
-        if (userid.equals(adminUserId)) {
+        if (userid.equals(propertiesConfig.getAdminId())) {
             return proceedingJoinPoint.proceed();
         } else {
             List<Long> menuIdList = menuDao.getMenuIdByUserRole(userid);
@@ -133,7 +134,7 @@ public class ConfigRuleService {
             "execution(* org.cboard.modules.services.AdminSerivce.updateUser(..)))")
     public Object userAdminRule(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         String userid = authenticationService.getCurrentUser().getUserId();
-        if (userid.equals(adminUserId)) {
+        if (userid.equals(propertiesConfig.getAdminId())) {
             return proceedingJoinPoint.proceed();
         }
         return null;
@@ -144,7 +145,7 @@ public class ConfigRuleService {
             "execution(* org.cboard.modules.services.AdminSerivce.updateRoleRes(..))")
     public Object resAdminRule(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         String userid = authenticationService.getCurrentUser().getUserId();
-        if (userid.equals(adminUserId)) {
+        if (userid.equals(propertiesConfig.getAdminId())) {
             return proceedingJoinPoint.proceed();
         } else {
             List<Long> menuIdList = menuDao.getMenuIdByUserRole(userid);
@@ -158,7 +159,7 @@ public class ConfigRuleService {
     @Around("execution(* org.cboard.modules.services.AdminSerivce.updateRole(..))")
     public Object updateRole(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         String userid = authenticationService.getCurrentUser().getUserId();
-        if (userid.equals(adminUserId)) {
+        if (userid.equals(propertiesConfig.getAdminId())) {
             return proceedingJoinPoint.proceed();
         } else {
             DashboardRole role = roleDao.getRole((String) proceedingJoinPoint.getArgs()[0]);
@@ -173,7 +174,7 @@ public class ConfigRuleService {
             "execution(* org.cboard.modules.services.AdminSerivce.deleteUserRoles(..))")
     public Object updateUserRole(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         String userid = authenticationService.getCurrentUser().getUserId();
-        if (userid.equals(adminUserId)) {
+        if (userid.equals(propertiesConfig.getAdminId())) {
             return proceedingJoinPoint.proceed();
         } else {
             List<String> roleId = Lists.transform(roleDao.getRoleList(userid), new Function<DashboardRole, String>() {
@@ -194,7 +195,7 @@ public class ConfigRuleService {
     @Around("execution(* org.cboard.modules.services.AdminSerivce.updateRoleResUser(..))")
     public Object updateRoleResUser(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         String userid = authenticationService.getCurrentUser().getUserId();
-        if (userid.equals(adminUserId)) {
+        if (userid.equals(propertiesConfig.getAdminId())) {
             return proceedingJoinPoint.proceed(proceedingJoinPoint.getArgs());
         } else {
             Object[] args = proceedingJoinPoint.getArgs();

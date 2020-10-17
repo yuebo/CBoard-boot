@@ -23,33 +23,7 @@ public class BaseController {
     @Autowired
     protected AuthenticationService authenticationService;
 
-    protected ThreadLocal<User> tlUser = new ThreadLocal<>();
-
-    @Value("${log.negativeFilter:List\\\\.do}")
-    protected String negativeFilter;
-
-    @Value("${log.positveFilter:}")
-    protected String positveFilter;
-
-    @ModelAttribute
-    public void initialAuthUser(HttpServletRequest request) {
-        String url = request.getRequestURL().toString();
-        User user = authenticationService.getCurrentUser();
-        tlUser.set(user);
-        String log = new CBoardActionLog(user, url).toString();
-
-        boolean isNegtiveMatch = false, isPositveMatch = true;
-
-        if (StringUtils.isNotBlank(positveFilter)) {
-            isPositveMatch = Pattern.compile(positveFilter).matcher(log).find();
-        }
-
-        if (StringUtils.isNotBlank(negativeFilter)) {
-            isNegtiveMatch = Pattern.compile(negativeFilter).matcher(log).find();
-        }
-
-        if (user != null && !isNegtiveMatch && isPositveMatch) {
-            LOG.info(log);
-        }
+    protected String getCurrentUserId(){
+       return authenticationService.getCurrentUser().getUserId();
     }
 }

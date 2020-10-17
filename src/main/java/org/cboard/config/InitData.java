@@ -28,8 +28,8 @@ import java.util.Set;
 public class InitData implements ApplicationRunner {
     private static final Logger LOGGER = LoggerFactory.getLogger(InitData.class);
 
-    @Value("${admin_user_id}")
-    private String adminUserId;
+    @Autowired
+    private PropertiesConfig propertiesConfig;
 
     @Autowired
     private SchedulerFactoryBean schedulerFactoryBean;
@@ -61,7 +61,7 @@ public class InitData implements ApplicationRunner {
         } catch (SchedulerException e) {
             LOGGER.error("", e);
         }
-        List<DashboardJob> jobList = jobDao.getJobList(adminUserId);
+        List<DashboardJob> jobList = jobDao.getJobList(propertiesConfig.getAdminId());
         for (DashboardJob job : jobList) {
             jobService.scheduleJob(job);
         }

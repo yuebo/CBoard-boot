@@ -28,7 +28,6 @@ import java.util.Properties;
  * @create 2018-07-25
  * @desc
  **/
-@Import(PropertiesConfig.class)
 public class DataSourceConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(DataSourceConfig.class);
 

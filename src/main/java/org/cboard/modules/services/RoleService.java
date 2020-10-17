@@ -1,5 +1,6 @@
 package org.cboard.modules.services;
 
+import org.cboard.config.PropertiesConfig;
 import org.cboard.modules.dao.RoleDao;
 import org.cboard.modules.pojo.DashboardRole;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +17,8 @@ public class RoleService {
 
     public static final String RES_BOARD = "board";
 
-    @Value("${admin_user_id}")
-    private String adminUserId;
+    @Autowired
+    private PropertiesConfig propertiesConfig;
 
     @Autowired
     private RoleDao roleDao;
@@ -32,7 +33,7 @@ public class RoleService {
 
     public List<DashboardRole> getCurrentRoleList(){
         String userid = authenticationService.getCurrentUser().getUserId();
-        if (userid.equals(adminUserId)) {
+        if (userid.equals(propertiesConfig.getAdminId())) {
             return roleDao.getRoleListAll();
         }
         return roleDao.getCurrentRoleList(userid);

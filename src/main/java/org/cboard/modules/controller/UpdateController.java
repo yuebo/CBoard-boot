@@ -3,6 +3,7 @@ package org.cboard.modules.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONPath;
 import org.apache.commons.lang3.StringUtils;
+import org.cboard.config.PropertiesConfig;
 import org.cboard.modules.dao.DatasetDao;
 import org.cboard.modules.dao.WidgetDao;
 import org.cboard.modules.pojo.DashboardDataset;
@@ -23,8 +24,8 @@ import java.util.function.Consumer;
 @RequestMapping("/update")
 public class UpdateController extends BaseController {
 
-    @Value("${admin_user_id}")
-    private String adminUserId;
+    @Autowired
+    private PropertiesConfig propertiesConfig;
 
     @Autowired
     private DatasetDao datasetDao;
@@ -34,8 +35,8 @@ public class UpdateController extends BaseController {
 
     @RequestMapping(value = "/dataset")
     public String dataset() {
-        String userId = tlUser.get().getUserId();
-        if (!adminUserId.equals(userId)) {
+        String userId = getCurrentUserId();
+        if (!propertiesConfig.getAdminId().equals(userId)) {
             return "";
         }
         List<DashboardDataset> datasetList = datasetDao.getDatasetList(userId);
@@ -74,8 +75,8 @@ public class UpdateController extends BaseController {
 
     @RequestMapping(value = "/widget")
     public String widget() {
-        String userId = tlUser.get().getUserId();
-        if (!adminUserId.equals(userId)) {
+        String userId = getCurrentUserId();
+        if (!propertiesConfig.getAdminId().equals(userId)) {
             return "";
         }
         List<DashboardWidget> widgetList = widgetDao.getWidgetList(userId);

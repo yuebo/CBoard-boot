@@ -25,4 +25,3 @@ spring:
     template-loader-path: classpath:/templates/config/
   profiles:
     active: demo
-admin_user_id: 1

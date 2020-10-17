@@ -5,6 +5,7 @@ import com.google.common.collect.Collections2;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.cboard.config.PropertiesConfig;
 import org.cboard.modules.dao.MenuDao;
 import org.cboard.modules.dto.DashboardMenu;
 import org.cboard.modules.services.AuthenticationService;
@@ -29,13 +30,13 @@ public class MenuRoleService {
     @Autowired
     private MenuDao menuDao;
 
-    @Value("${admin_user_id}")
-    private String adminUserId;
+    @Autowired
+    private PropertiesConfig propertiesConfig;
 
     @Around("execution(* org.cboard.modules.services.MenuService.getMenuList(..))")
     public Object getMenuList(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         String userid = authenticationService.getCurrentUser().getUserId();
-        if (userid.equals(adminUserId)) {
+        if (userid.equals(propertiesConfig.getAdminId())) {
             return proceedingJoinPoint.proceed();
         } else {
             final List<Long> menuIdList = menuDao.getMenuIdByUserRole(userid);

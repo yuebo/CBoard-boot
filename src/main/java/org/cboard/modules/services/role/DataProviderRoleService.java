@@ -3,6 +3,7 @@ package org.cboard.modules.services.role;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.cboard.config.PropertiesConfig;
 import org.cboard.modules.dao.DatasetDao;
 import org.cboard.modules.dao.DatasourceDao;
 import org.cboard.modules.services.AuthenticationService;
@@ -27,9 +28,6 @@ public class DataProviderRoleService {
 
     @Autowired
     private DatasetDao datasetDao;
-
-    @Value("${admin_user_id}")
-    private String adminUserId;
 
     @Around("execution(* org.cboard.modules.services.DataProviderService.getDimensionValues(..)) ||" +
             "execution(* org.cboard.modules.services.DataProviderService.getColumns(..)) ||" +

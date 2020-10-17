@@ -3,6 +3,7 @@ package org.cboard.modules.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.cboard.config.PropertiesConfig;
 import org.cboard.modules.services.BoardService;
 import org.cboard.modules.services.HomepageService;
 import org.cboard.modules.services.ServiceStatus;
@@ -26,35 +27,35 @@ public class HomepageController extends BaseController {
     @Autowired
     private BoardService boardService;
     
-    @Value("${admin_user_id}")
-    private String adminUserId;
+    @Autowired
+    private PropertiesConfig propertiesConfig;
 
     @RequestMapping(value = "/saveHomepage")
     public ServiceStatus saveHomepage(@RequestParam(name = "boardId", required = true) Long boardId) {
-        String userId = tlUser.get().getUserId();
+        String userId = getCurrentUserId();
         return homepageService.saveHomepage(boardId, userId);
     }
     
     @RequestMapping(value = "/resetHomepage")
     public ServiceStatus resetHomepage() {
-        String userId = tlUser.get().getUserId();
+        String userId = getCurrentUserId();
         return homepageService.resetHomepage(userId);
     }
     
     @RequestMapping(value = "/selectHomepage")
     public Long selectHomepage() {
-        String userId = tlUser.get().getUserId();
+        String userId = getCurrentUserId();
         return homepageService.selectHomepage(userId);
     }
     
     @RequestMapping(value = "/mine", method = RequestMethod.GET)
     public Map<String, ?> loginPage() {           
-        String userId = tlUser.get().getUserId();
+        String userId = getCurrentUserId();
         // 优先查找当前用户设置的首页
         Long boardId = homepageService.selectHomepage(userId);
         if(boardId == null) {
             // 如当前用户未设置首页，查找由管理员设置的系统首页
-            boardId = homepageService.selectHomepage(adminUserId);
+            boardId = homepageService.selectHomepage(propertiesConfig.getAdminId());
         }
         
         Map<String, Object> result = new HashMap<String, Object>();

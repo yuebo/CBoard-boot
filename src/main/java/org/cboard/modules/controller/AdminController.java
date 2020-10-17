@@ -3,6 +3,7 @@ package org.cboard.modules.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
+import org.cboard.config.PropertiesConfig;
 import org.cboard.modules.dao.*;
 import org.cboard.modules.dto.*;
 import org.cboard.modules.pojo.*;
@@ -35,8 +36,8 @@ public class AdminController extends BaseController {
     @Autowired
     private RoleDao roleDao;
 
-    @Value("${admin_user_id}")
-    private String adminUserId;
+    @Autowired
+    private PropertiesConfig propertiesConfig;
 
     @Autowired
     private MenuDao menuDao;
@@ -99,7 +100,7 @@ public class AdminController extends BaseController {
 
     @RequestMapping(value = "/getRoleList")
     public List<DashboardRole> getRoleList() {
-        List<DashboardRole> list = roleDao.getRoleList(tlUser.get().getUserId());
+        List<DashboardRole> list = roleDao.getRoleList(getCurrentUserId());
         return list;
     }
 
@@ -114,7 +115,7 @@ public class AdminController extends BaseController {
         return adminSerivce.updateUserRole(
                 JSONArray.parseArray(userIdArr).toArray(new String[]{}),
                 JSONArray.parseArray(roleIdArr).toArray(new String[]{}),
-                tlUser.get().getUserId()
+                getCurrentUserId()
         );
     }
 
@@ -123,7 +124,7 @@ public class AdminController extends BaseController {
         return adminSerivce.deleteUserRoles(
                 JSONArray.parseArray(userIdArr).toArray(new String[]{}),
                 JSONArray.parseArray(roleIdArr).toArray(new String[]{}),
-                tlUser.get().getUserId()
+                getCurrentUserId()
         );
     }
 
@@ -151,15 +152,15 @@ public class AdminController extends BaseController {
 
     @RequestMapping(value = "/isAdmin")
     public boolean isAdmin() {
-        return adminUserId.equals(tlUser.get().getUserId());
+        return propertiesConfig.getAdminId().equals(getCurrentUserId());
     }
 
     @RequestMapping(value = "/isConfig")
     public boolean isConfig(@RequestParam(name = "type") String type) {
-        if (tlUser.get().getUserId().equals(adminUserId)) {
+        if (getCurrentUserId().equals(propertiesConfig.getAdminId())) {
             return true;
         } else if (type.equals("widget")) {
-            List<Long> menuIdList = menuDao.getMenuIdByUserRole(tlUser.get().getUserId());
+            List<Long> menuIdList = menuDao.getMenuIdByUserRole(getCurrentUserId());
             if (menuIdList.contains(1L) && menuIdList.contains(4L)) {
                 return true;
             }
@@ -169,56 +170,56 @@ public class AdminController extends BaseController {
 
     @RequestMapping(value = "/getDatasetList")
     public List<ViewDashboardDataset> getDatasetList() {
-        List<DashboardDataset> list = datasetDao.getDatasetListAdmin(tlUser.get().getUserId());
+        List<DashboardDataset> list = datasetDao.getDatasetListAdmin(getCurrentUserId());
         return Lists.transform(list, ViewDashboardDataset.TO);
     }
 
     @RequestMapping(value = "/getDatasetListUser")
     public List<ViewDashboardDataset> getDatasetListUser() {
-        List<DashboardDataset> list = adminSerivce.getDatasetList(tlUser.get().getUserId());
+        List<DashboardDataset> list = adminSerivce.getDatasetList(getCurrentUserId());
         return Lists.transform(list, ViewDashboardDataset.TO);
     }
 
     @RequestMapping(value = "/getJobList")
     public List<ViewDashboardJob> getJobList() {
-        return jobDao.getJobListAdmin(tlUser.get().getUserId()).stream().map(ViewDashboardJob::new).collect(Collectors.toList());
+        return jobDao.getJobListAdmin(getCurrentUserId()).stream().map(ViewDashboardJob::new).collect(Collectors.toList());
     }
 
     @RequestMapping(value = "/getBoardList")
     public List<ViewDashboardBoard> getBoardList() {
-        List<DashboardBoard> list = boardDao.getBoardListAdmin(tlUser.get().getUserId());
+        List<DashboardBoard> list = boardDao.getBoardListAdmin(getCurrentUserId());
         return Lists.transform(list, ViewDashboardBoard.TO);
     }
 
     @RequestMapping(value = "/getBoardListUser")
     public List<ViewDashboardBoard> getBoardListUser() {
-        List<DashboardBoard> list = adminSerivce.getBoardList(tlUser.get().getUserId());
+        List<DashboardBoard> list = adminSerivce.getBoardList(getCurrentUserId());
         return Lists.transform(list, ViewDashboardBoard.TO);
     }
 
     @RequestMapping(value = "/getWidgetList")
     public List<ViewDashboardWidget> getWidgetList() {
-        List<DashboardWidget> list = widgetDao.getWidgetListAdmin(tlUser.get().getUserId());
+        List<DashboardWidget> list = widgetDao.getWidgetListAdmin(getCurrentUserId());
         return Lists.transform(list, ViewDashboardWidget.TO);
     }
 
     @RequestMapping(value = "/getWidgetListUser")
     public List<ViewDashboardWidget> getWidgetListUser() {
-        List<DashboardWidget> list = adminSerivce.getWidgetList(tlUser.get().getUserId());
+        List<DashboardWidget> list = adminSerivce.getWidgetList(getCurrentUserId());
         return Lists.transform(list, ViewDashboardWidget.TO);
     }
 
     @RequestMapping(value = "/getDatasourceList")
     public List<ViewDashboardDatasource> getDatasourceList() {
-        return datasourceService.getViewDatasourceList(() -> datasourceDao.getDatasourceListAdmin(tlUser.get().getUserId()));
+        return datasourceService.getViewDatasourceList(() -> datasourceDao.getDatasourceListAdmin(getCurrentUserId()));
     }
 
     @RequestMapping(value = "/getMenuList")
     public List<DashboardMenu> getMenuList() {
-        if (adminUserId.equals(tlUser.get().getUserId())) {
+        if (propertiesConfig.getAdminId().equals(getCurrentUserId())) {
             return menuService.getMenuList();
         } else {
-            List<Long> menuId = menuDao.getMenuIdByRoleAdmin(tlUser.get().getUserId());
+            List<Long> menuId = menuDao.getMenuIdByRoleAdmin(getCurrentUserId());
             return menuService.getMenuList().stream().filter(e -> menuId.stream().anyMatch(id -> id.equals(e.getMenuId()))).collect(Collectors.toList());
         }
     }
