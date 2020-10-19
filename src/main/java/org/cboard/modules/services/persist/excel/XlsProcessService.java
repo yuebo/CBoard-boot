@@ -30,13 +30,13 @@ public class XlsProcessService {
     private XlsProcesser jpgXlsProcesser = new JpgXlsProcesser();
     private XlsProcesser tableXlsProcesser = new TableXlsProcesser();
 
-    public HSSFWorkbook dashboardToXls(List<PersistContext> contexts) {
-        XlsProcesserContext context = null;
-        for (PersistContext e : contexts) {
-            context = dashboardToXls(e, context);
-        }
-        return (HSSFWorkbook) context.getWb();
-    }
+//    public HSSFWorkbook dashboardToXls(List<PersistContext> contexts) {
+//        XlsProcesserContext context = null;
+//        for (PersistContext e : contexts) {
+//            context = dashboardToXls(e, context);
+//        }
+//        return (HSSFWorkbook) context.getWb();
+//    }
 
     public HSSFWorkbook tableToxls(JSONObject data) {
         XlsProcesserContext context = new XlsProcesserContext();

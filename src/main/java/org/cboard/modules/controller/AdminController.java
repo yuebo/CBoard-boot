@@ -11,7 +11,6 @@ import org.cboard.modules.services.AdminSerivce;
 import org.cboard.modules.services.DatasourceService;
 import org.cboard.modules.services.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -48,8 +47,6 @@ public class AdminController extends BaseController {
     private DatasetDao datasetDao;
     @Autowired
     private DatasourceDao datasourceDao;
-    @Autowired
-    private JobDao jobDao;
     @Autowired
     private WidgetDao widgetDao;
     @Autowired
@@ -180,10 +177,6 @@ public class AdminController extends BaseController {
         return Lists.transform(list, ViewDashboardDataset.TO);
     }
 
-    @RequestMapping(value = "/getJobList")
-    public List<ViewDashboardJob> getJobList() {
-        return jobDao.getJobListAdmin(getCurrentUserId()).stream().map(ViewDashboardJob::new).collect(Collectors.toList());
-    }
 
     @RequestMapping(value = "/getBoardList")
     public List<ViewDashboardBoard> getBoardList() {

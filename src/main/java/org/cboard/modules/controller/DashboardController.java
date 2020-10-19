@@ -16,9 +16,7 @@ import org.cboard.modules.dao.*;
 import org.cboard.modules.dto.*;
 import org.cboard.modules.pojo.*;
 import org.cboard.modules.services.*;
-import org.cboard.modules.services.job.JobService;
 import org.cboard.modules.services.persist.excel.XlsProcessService;
-import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -80,12 +78,6 @@ public class DashboardController extends BaseController {
 
     @Autowired
     private DatasetService datasetService;
-
-    @Autowired
-    private JobService jobService;
-
-    @Autowired
-    private JobDao jobDao;
 
     @Autowired
     private XlsProcessService xlsProcessService;
@@ -353,38 +345,13 @@ public class DashboardController extends BaseController {
         return new ViewDashboardWidget(widget);
     }
 
-    @RequestMapping(value = "/saveJob")
-    public ServiceStatus saveJob(@RequestParam(name = "json") String json) {
-        return jobService.save(getCurrentUserId(), json);
-    }
-
-    @RequestMapping(value = "/updateJob")
-    public ServiceStatus updateJob(@RequestParam(name = "json") String json) throws SchedulerException {
-        return jobService.update(getCurrentUserId(), json);
-    }
-
-    @RequestMapping(value = "/getJobList")
-    public List<ViewDashboardJob> getJobList() {
-        return jobDao.getJobList(getCurrentUserId()).stream().map(ViewDashboardJob::new).collect(Collectors.toList());
-    }
-
-    @RequestMapping(value = "/deleteJob")
-    public ServiceStatus deleteJob(Long id, String jopType) throws SchedulerException {
-        return jobService.delete(getCurrentUserId(), id, jopType);
-    }
-
-    @RequestMapping(value = "/execJob")
-    public ServiceStatus execJob(@RequestParam(name = "id") Long id) {
-        return jobService.exec(getCurrentUserId(), id);
-    }
-
-    @RequestMapping(value = "/exportBoard")
-    public ResponseEntity<byte[]> exportBoard(@RequestParam(name = "id") Long id) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-        headers.setContentDispositionFormData("attachment", "report.xls");
-        return new ResponseEntity<>(boardService.exportBoard(id, getCurrentUserId()), headers, HttpStatus.CREATED);
-    }
+//    @RequestMapping(value = "/exportBoard")
+//    public ResponseEntity<byte[]> exportBoard(@RequestParam(name = "id") Long id) {
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+//        headers.setContentDispositionFormData("attachment", "report.xls");
+//        return new ResponseEntity<>(boardService.exportBoard(id, getCurrentUserId()), headers, HttpStatus.CREATED);
+//    }
 
     @RequestMapping(value = "/tableToxls")
     public ResponseEntity<byte[]> tableToxls(@RequestParam(name = "data") String data) {
@@ -400,11 +367,6 @@ public class DashboardController extends BaseController {
             LOG.error("", e);
         }
         return null;
-    }
-
-    @RequestMapping(value = "/getJobStatus")
-    public ViewDashboardJob getJobStatus(@RequestParam(name = "id") Long id) {
-        return new ViewDashboardJob(jobDao.getJob(id));
     }
 
     @RequestMapping(value = "/getBoardParam")

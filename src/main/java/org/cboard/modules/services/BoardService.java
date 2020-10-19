@@ -128,20 +128,20 @@ public class BoardService {
         }
     }
 
-    public byte[] exportBoard(Long id, String userId) {
-        PersistContext persistContext = persistService.persist(id, userId);
-        List<PersistContext> workbookList = new ArrayList<>();
-        workbookList.add(persistContext);
-        HSSFWorkbook workbook = xlsProcessService.dashboardToXls(workbookList);
-        try {
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            workbook.write(outputStream);
-            outputStream.close();
-            return outputStream.toByteArray();
-        } catch (IOException e) {
-            LOG.error("", e);
-        }
-        return null;
-    }
+//    public byte[] exportBoard(Long id, String userId) {
+//        PersistContext persistContext = persistService.persist(id, userId);
+//        List<PersistContext> workbookList = new ArrayList<>();
+//        workbookList.add(persistContext);
+//        HSSFWorkbook workbook = xlsProcessService.dashboardToXls(workbookList);
+//        try {
+//            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+//            workbook.write(outputStream);
+//            outputStream.close();
+//            return outputStream.toByteArray();
+//        } catch (IOException e) {
+//            LOG.error("", e);
+//        }
+//        return null;
+//    }
 
 }
