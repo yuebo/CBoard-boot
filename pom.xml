@@ -169,6 +169,10 @@
             <artifactId>fluent-hc</artifactId>
             <version>4.5.3</version>
         </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.apache.kylin</groupId>
@@ -210,72 +214,6 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
-
-        <!-- local jar
-        <dependency>
-            <groupId>org.cboard</groupId>
-            <artifactId>hive_metastore</artifactId>
-            <version>1.0.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/hive_metastore.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>org.cboard</groupId>
-            <artifactId>hive_service</artifactId>
-            <version>1.0.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/hive_service.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>org.cboard</groupId>
-            <artifactId>ImpalaJDBC4</artifactId>
-            <version>1.0.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/ImpalaJDBC4.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>org.cboard</groupId>
-            <artifactId>libfb303-0.9.0</artifactId>
-            <version>1.0.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/libfb303-0.9.0.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>org.cboard</groupId>
-            <artifactId>libthrift-0.9.0</artifactId>
-            <version>1.0.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/libthrift-0.9.0.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>org.cboard</groupId>
-            <artifactId>ojdbc6</artifactId>
-            <version>1.0.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/ojdbc6.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>org.cboard</groupId>
-            <artifactId>ql</artifactId>
-            <version>1.0.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/ql.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>org.cboard</groupId>
-            <artifactId>sqljdbc4-4.0</artifactId>
-            <version>1.0.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/sqljdbc4-4.0.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>org.cboard</groupId>
-            <artifactId>TCLIServiceClient</artifactId>
-            <version>1.0.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/TCLIServiceClient.jar</systemPath>
-        </dependency>
-         -->
         <!-- local jar end -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
